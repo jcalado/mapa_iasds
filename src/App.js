@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   GoogleMap,
-  useGoogleMap,
   InfoWindow,
   Marker,
   useJsApiLoader,
   Autocomplete,
 } from "@react-google-maps/api";
 import { getChurchesList } from "./services/churches";
-import { getPersonsList, getPerson } from "./services/persons";
 import "./App.css";
 
 const center = {
@@ -22,10 +20,8 @@ function MyComponent() {
   var [searchList, setSearchList] = useState([]);
   const [activeMarker, setActiveMarker] = useState(null);
   const [activePlace, setActivePlace] = useState(center);
-  const [searchString, setSearchString] = useState(null);
   const [map, setMap] = React.useState(null);
   const [autocomplete, setAutocomplete] = React.useState(null);
-  const [locationPosition, setLocationPosition] = useState({});
   const [ libraries ] = useState(['places']);
   const [mapCenter, setMapCenter] = useState(center);
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_KEY;
@@ -38,8 +34,6 @@ function MyComponent() {
 
 
   const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
-
     setMap(map);
     console.log("mapa carregado");
   }, []);
@@ -55,10 +49,8 @@ function MyComponent() {
 
     console.log(distanceBetween(place, center));
     setActivePlace(place);
-    markerList.map((marker) => {
+    markerList.forEach((marker) => {
       marker.distance = distanceBetween(place, marker);
-      console.log(marker.city);
-      console.log(marker.distance)
     })
     markerList.sort((a, b) => (parseInt(a.distance) > parseInt(b.distance)) ? 1 : -1)
     setMapCenter(place)
@@ -80,8 +72,6 @@ function MyComponent() {
   };
 
   const handleSearchChange = (data) => {
-    setSearchString(data.target.value);
-
     setSearchList(
       markerList.filter((marker) =>
         marker.name.toLowerCase().includes(data.target.value.toLowerCase()) || 
@@ -162,14 +152,12 @@ function MyComponent() {
                 lastName,
                 gender,
               }) => (
-                (lat = parseFloat(lat)),
-                (lng = parseFloat(lng)),
                 (
                   <li key={id} position={{lat, lng}} onClick={() => {map.setCenter({lat, lng})}} place_id={id} distance={distanceBetween(activePlace, {lat, lng})}>
                     {name} 
-                    <small>{mapCenter == initialCenter ? "" : "Distância: " + distanceBetween(activePlace, {lat, lng}) + " Km"}</small>
+                    <small>{mapCenter === initialCenter ? "" : "Distância: " + distanceBetween(activePlace, {lat, lng}) + " Km"}</small>
                     <small>
-                      {gender == "M" ? "Pr." : "Pra."} {firstName} {lastName}
+                      {gender === "M" ? "Pr." : "Pra."} {firstName} {lastName}
                     </small>
                   </li>
                 )
@@ -215,8 +203,6 @@ function MyComponent() {
           
           searchList.map(
             ({ id, name, lat, lng, address }) => (
-              (lat = parseFloat(lat)),
-              (lng = parseFloat(lng)),
               (
                 <Marker
                   key={id}
