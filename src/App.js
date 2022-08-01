@@ -28,10 +28,11 @@ function MyComponent() {
   const [locationPosition, setLocationPosition] = useState({});
   const [ libraries ] = useState(['places']);
   const [mapCenter, setMapCenter] = useState(center);
+  const apiKey = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: apiKey,
     libraries,
   });
 
