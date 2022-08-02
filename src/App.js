@@ -8,13 +8,7 @@ import {
 } from "@react-google-maps/api";
 import { getChurchesList } from "./services/churches";
 import "./App.css";
-import {
-  IconBrandYoutube,
-  IconBrandFacebook,
-  IconBrandInstagram,
-  IconMap,
-  IconPhoto,
-} from "@tabler/icons";
+import { ChurchDetails } from "./components/ChurchDetails";
 
 const center = {
   lat: 39.6948,
@@ -86,16 +80,11 @@ function MyComponent() {
       markerList.filter(
         (marker) =>
           marker.name.toLowerCase().includes(data.target.value.toLowerCase()) ||
-          marker.firstName
-            .toLowerCase()
-            .includes(data.target.value.toLowerCase()) ||
-          marker.lastName
-            .toLowerCase()
+          [marker.firstName.toLowerCase(), marker.lastName.toLowerCase()]
+            .join(" ")
             .includes(data.target.value.toLowerCase())
       )
     );
-
-    console.log(`Pesquisa para ${data.target.value}`);
   };
 
   useEffect(() => {
@@ -170,6 +159,7 @@ function MyComponent() {
                   position={{ lat, lng }}
                   onClick={() => {
                     map.setCenter({ lat, lng });
+                    map.setZoom(20);
                   }}
                   place_id={id}
                   distance={distanceBetween(activePlace, { lat, lng })}
@@ -262,88 +252,14 @@ function MyComponent() {
                         {firstName} {lastName}
                       </p>
 
-                      <div className="links">
-                        <a
-                          href={
-                            "https://maps.google.com/?q=" +
-                            lat +
-                            "," +
-                            lng +
-                            "&ll=" +
-                            lat +
-                            "," +
-                            lng +
-                            "&z=20"
-                          }
-                          target="_blank"
-                          rel="noreferrer"
-                          title="Mapa"
-                        >
-                          <IconMap color="#ecb72b" size={30}></IconMap>
-                        </a>
-                        {pictureUrl !== undefined &&
-                          pictureUrl !== null &&
-                          pictureUrl !== "" && (
-                            <a
-                              href={pictureUrl}
-                              title="Foto"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <IconPhoto
-                                color="#003366"
-                                size={30}
-                              ></IconPhoto>
-                            </a>
-                          )}
-                        {youtube !== undefined &&
-                          youtube !== null &&
-                          youtube !== "" && (
-                            <a
-                              href={youtube}
-                              title="Youtube"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <IconBrandYoutube
-                                color="#da2f2f"
-                                size={30}
-                              ></IconBrandYoutube>
-                            </a>
-                          )}
-
-                        {facebook !== undefined &&
-                          facebook !== null &&
-                          facebook !== "" && (
-                            <a
-                              href={facebook}
-                              title="Facebook"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <IconBrandFacebook
-                                color="#4267B2"
-                                size={30}
-                              ></IconBrandFacebook>
-                            </a>
-                          )}
-
-                        {instagram !== undefined &&
-                          instagram !== null &&
-                          instagram !== "" && (
-                            <a
-                              href={instagram}
-                              title="Instagram"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              <IconBrandInstagram
-                                color="#b92e9d"
-                                size={30}
-                              ></IconBrandInstagram>
-                            </a>
-                          )}
-                      </div>
+                      <ChurchDetails
+                        lat={lat}
+                        lng={lng}
+                        youtube={youtube}
+                        facebook={facebook}
+                        instagram={instagram}
+                        pictureUrl={pictureUrl}
+                      ></ChurchDetails>
                     </div>
                   </InfoWindow>
                 )}
