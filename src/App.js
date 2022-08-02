@@ -13,7 +13,6 @@ import {
   BrandFacebook,
   BrandYoutube,
   BrandInstagram,
-  BrandFirebase,
 } from "tabler-icons-react";
 
 const center = {
