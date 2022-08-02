@@ -49,6 +49,7 @@
   width: 25%;
   overflow: scroll;
   max-height: 100vh;
+  border-left: 2px solid #003366;
 }
 
 #search {
@@ -87,6 +88,35 @@
 
 #search::placeholder {
   color: rgba(255, 255, 255, 0.5);
+}
+
+.churchInfo {
+  padding: 10px;
+}
+
+.churchInfo h1, .churchInfo h2, .churchInfo p {
+  margin: 0;
+}
+.churchInfo address {
+  font-style: normal;
+}
+
+.churchInfo .links {
+  margin-top: 1em;
+}
+
+.churchInfo h1 {
+  font-size: 1.8em;
+  margin-bottom: 0.5em;
+  color: #003366;
+}
+
+.churchInfo h2 {
+  margin-top: 1em;
+  padding-bottom: 5px;
+  font-size: 1.2em;
+  font-weight: normal;
+  color: #003366;
 }
 
 @media only screen and (max-width: 600px) {

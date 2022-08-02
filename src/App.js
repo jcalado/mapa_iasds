@@ -237,6 +237,8 @@ function MyComponent() {
               youtube,
               facebook,
               instagram,
+              firstName,
+              lastName,
             }) => (
               <Marker
                 key={id}
@@ -245,10 +247,16 @@ function MyComponent() {
               >
                 {activeMarker === id && (
                   <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-                    <div>
+                    <div className="churchInfo">
                       <h1>{name}</h1>
-                      <p>{address}</p>
+                      <h2>Morada</h2>
+                      <address>{address}</address>
+
+                      <h2>Horário</h2>
                       <p>{schedule}</p>
+
+                      <h2>Pastor</h2>
+                      <p>{firstName} {lastName}</p>
 
                       <div className="links">
                         <a
@@ -263,6 +271,8 @@ function MyComponent() {
                             lng +
                             "&z=20"
                           }
+                          target="_blank"
+                          rel="noreferrer"
                           title="Mapa"
                         >
                           <Map color="#ecb72b" size={30}></Map>
@@ -270,15 +280,15 @@ function MyComponent() {
                         {youtube !== undefined &&
                           youtube !== null &&
                           youtube !== "" && (
-                            <a href={youtube} title="Youtube">
-                              <BrandYoutube color="#4267B2" size={30}></BrandYoutube>
+                            <a href={youtube} title="Youtube" target="_blank" rel="noreferrer">
+                              <BrandYoutube color="#da2f2f" size={30}></BrandYoutube>
                             </a>
                           )}
 
                         {facebook !== undefined &&
                           facebook !== null &&
                           facebook !== "" && (
-                            <a href={facebook} title="Facebook">
+                            <a href={facebook} title="Facebook" target="_blank" rel="noreferrer">
                               <BrandFacebook color="#4267B2" size={30}></BrandFacebook>
                             </a>
                           )}
@@ -286,11 +296,12 @@ function MyComponent() {
                         {instagram !== undefined &&
                           instagram !== null &&
                           instagram !== "" && (
-                            <a href={instagram} title="Instagram">
+                            <a href={instagram} title="Instagram" target="_blank" rel="noreferrer">
                               <BrandInstagram color="#b92e9d" size={30}></BrandInstagram>
                             </a>
                           )}
                       </div>
+
                     </div>
                   </InfoWindow>
                 )}
