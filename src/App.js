@@ -8,6 +8,13 @@ import {
 } from "@react-google-maps/api";
 import { getChurchesList } from "./services/churches";
 import "./App.css";
+import {
+  Map,
+  BrandFacebook,
+  BrandYoutube,
+  BrandInstagram,
+  BrandFirebase,
+} from "tabler-icons-react";
 
 const center = {
   lat: 39.6948,
@@ -22,7 +29,7 @@ function MyComponent() {
   const [activePlace, setActivePlace] = useState(center);
   const [map, setMap] = React.useState(null);
   const [autocomplete, setAutocomplete] = React.useState(null);
-  const [ libraries ] = useState(['places']);
+  const [libraries] = useState(["places"]);
   const [mapCenter, setMapCenter] = useState(center);
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
@@ -32,7 +39,6 @@ function MyComponent() {
     libraries,
   });
 
-
   const onLoad = React.useCallback(function callback(map) {
     setMap(map);
     console.log("mapa carregado");
@@ -40,26 +46,31 @@ function MyComponent() {
 
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
-    console.log("unmount do mapa")
+    console.log("unmount do mapa");
   }, []);
 
   const handlePlaceChanged = () => {
-    var place = {lat: autocomplete.getPlace().geometry.location.lat(), lng: autocomplete.getPlace().geometry.location.lng()}
+    var place = {
+      lat: autocomplete.getPlace().geometry.location.lat(),
+      lng: autocomplete.getPlace().geometry.location.lng(),
+    };
     console.log(place);
 
     console.log(distanceBetween(place, center));
     setActivePlace(place);
     markerList.forEach((marker) => {
       marker.distance = distanceBetween(place, marker);
-    })
-    markerList.sort((a, b) => (parseInt(a.distance) > parseInt(b.distance)) ? 1 : -1)
-    setMapCenter(place)
+    });
+    markerList.sort((a, b) =>
+      parseInt(a.distance) > parseInt(b.distance) ? 1 : -1
+    );
+    setMapCenter(place);
     map.setCenter(place);
-    map.setZoom(14)
+    map.setZoom(14);
   };
 
   const handleAutocompleteLoaded = (obj) => {
-    setAutocomplete(obj)
+    setAutocomplete(obj);
   };
 
   const handleActiveMarker = (marker) => {
@@ -68,15 +79,19 @@ function MyComponent() {
     }
 
     setActiveMarker(marker);
-
   };
 
   const handleSearchChange = (data) => {
     setSearchList(
-      markerList.filter((marker) =>
-        marker.name.toLowerCase().includes(data.target.value.toLowerCase()) || 
-        marker.firstName.toLowerCase().includes(data.target.value.toLowerCase()) || 
-        marker.lastName.toLowerCase().includes(data.target.value.toLowerCase())
+      markerList.filter(
+        (marker) =>
+          marker.name.toLowerCase().includes(data.target.value.toLowerCase()) ||
+          marker.firstName
+            .toLowerCase()
+            .includes(data.target.value.toLowerCase()) ||
+          marker.lastName
+            .toLowerCase()
+            .includes(data.target.value.toLowerCase())
       )
     );
 
@@ -87,14 +102,13 @@ function MyComponent() {
     let mounted = true;
     getChurchesList().then((items) => {
       if (mounted) {
-        items.sort((a, b) => (a.city > b.city) ? 1 : -1)
+        items.sort((a, b) => (a.city > b.city ? 1 : -1));
         setMarkerList(items);
         setSearchList(items);
       }
     });
     return () => (mounted = false);
   }, []);
-
 
   // useEffect( () => {
   //   if (!navigator.geolocation) {
@@ -109,27 +123,26 @@ function MyComponent() {
 
   function distanceBetween(pointA, pointB) {
     var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(pointB.lat-pointA.lat);  // deg2rad below
-    var dLon = deg2rad(pointB.lng-pointA.lng); 
-    var a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(deg2rad(pointA.lat)) * Math.cos(deg2rad(pointB.lat)) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2)
-      ; 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var dLat = deg2rad(pointB.lat - pointA.lat); // deg2rad below
+    var dLon = deg2rad(pointB.lng - pointA.lng);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(pointA.lat)) *
+        Math.cos(deg2rad(pointB.lat)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c; // Distance in km
     return d.toFixed(0);
   }
-  
+
   function deg2rad(deg) {
-    return deg * (Math.PI/180)
+    return deg * (Math.PI / 180);
   }
 
   return isLoaded ? (
     <div id="content">
-      <div
-        id="searchList"
-      >
+      <div id="searchList">
         <input
           type="search"
           autoComplete="off"
@@ -137,7 +150,7 @@ function MyComponent() {
           placeholder="filtrar lista ..."
           onChange={handleSearchChange}
         ></input>
-        
+
         <div id="list">
           <ul>
             {searchList.map(
@@ -152,73 +165,137 @@ function MyComponent() {
                 lastName,
                 gender,
               }) => (
-                (
-                  <li key={id} position={{lat, lng}} onClick={() => {map.setCenter({lat, lng})}} place_id={id} distance={distanceBetween(activePlace, {lat, lng})}>
-                    {name} 
-                    <small>{mapCenter === initialCenter ? "" : "Distância: " + distanceBetween(activePlace, {lat, lng}) + " Km"}</small>
-                    <small>
-                      {gender === "M" ? "Pr." : "Pra."} {firstName} {lastName}
-                    </small>
-                  </li>
-                )
+                <li
+                  key={id}
+                  position={{ lat, lng }}
+                  onClick={() => {
+                    map.setCenter({ lat, lng });
+                  }}
+                  place_id={id}
+                  distance={distanceBetween(activePlace, { lat, lng })}
+                >
+                  {name}
+                  <small>
+                    {mapCenter === initialCenter
+                      ? ""
+                      : "Distância: " +
+                        distanceBetween(activePlace, { lat, lng }) +
+                        " Km"}
+                  </small>
+                  <small>
+                    {gender === "M" ? "Pr." : "Pra."} {firstName} {lastName}
+                  </small>
+                </li>
               )
             )}
           </ul>
         </div>
       </div>
-      <GoogleMap id="map"
+      <GoogleMap
+        id="map"
         center={center}
         zoom={7}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
         <Autocomplete
-            onLoad={handleAutocompleteLoaded}
-            onPlaceChanged={handlePlaceChanged}
-          >
-            <input
-              type="text"
-              autoComplete="off"
-              placeholder="Introduza uma morada..."
-              style={{
-                boxSizing: `border-box`,
-                border: `1px solid transparent`,
-                width: `50%`,
-                height: `40px`,
-                padding: `0 12px`,
-                borderRadius: `3px`,
-                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                fontSize: `14px`,
-                outline: `none`,
-                textOverflow: `ellipses`,
-                position: "absolute",
-                left: "50%",
-                top: "10px",
-                marginLeft: "-25%"
-              }}
-            />
-          </Autocomplete>
+          onLoad={handleAutocompleteLoaded}
+          onPlaceChanged={handlePlaceChanged}
+        >
+          <input
+            type="text"
+            autoComplete="off"
+            placeholder="Introduza uma morada..."
+            style={{
+              boxSizing: `border-box`,
+              border: `1px solid transparent`,
+              width: `50%`,
+              height: `40px`,
+              padding: `0 12px`,
+              borderRadius: `3px`,
+              boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+              fontSize: `14px`,
+              outline: `none`,
+              textOverflow: `ellipses`,
+              position: "absolute",
+              left: "50%",
+              top: "10px",
+              marginLeft: "-25%",
+            }}
+          />
+        </Autocomplete>
         {
           /* Child components, such as markers, info windows, etc. */
-          
+
           searchList.map(
-            ({ id, name, lat, lng, address }) => (
-              (
-                <Marker
-                  key={id}
-                  position={{ lat, lng }}
-                  onClick={() => handleActiveMarker(id)}
-                >
-                  {activeMarker === id && (
-                    <InfoWindow onCloseClick={() => setActiveMarker(null)}>
-                      <div>
-                        <h1>{name}</h1>
-                        <p>{address}</p>
+            ({
+              id,
+              name,
+              lat,
+              lng,
+              address,
+              schedule,
+              youtube,
+              facebook,
+              instagram,
+            }) => (
+              <Marker
+                key={id}
+                position={{ lat, lng }}
+                onClick={() => handleActiveMarker(id)}
+              >
+                {activeMarker === id && (
+                  <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                    <div>
+                      <h1>{name}</h1>
+                      <p>{address}</p>
+                      <p>{schedule}</p>
+
+                      <div className="links">
+                        <a
+                          href={
+                            "https://maps.google.com/?q=" +
+                            lat +
+                            "," +
+                            lng +
+                            "&ll=" +
+                            lat +
+                            "," +
+                            lng +
+                            "&z=20"
+                          }
+                          title="Mapa"
+                        >
+                          <Map color="#ecb72b" size={30}></Map>
+                        </a>
+                        {youtube !== undefined &&
+                          youtube !== null &&
+                          youtube !== "" && (
+                            <a href={youtube} title="Youtube">
+                              <BrandYoutube color="#4267B2" size={30}></BrandYoutube>
+                            </a>
+                          )}
+
+                        {facebook !== undefined &&
+                          facebook !== null &&
+                          facebook !== "" && (
+                            <a href={facebook} title="Facebook">
+                              <BrandFacebook color="#4267B2" size={30}></BrandFacebook>
+                            </a>
+                          )}
+
+                        {instagram !== undefined &&
+                          instagram !== null &&
+                          instagram !== "" && (
+                            <a href={instagram} title="Instagram">
+                              <BrandInstagram color="#b92e9d" size={30}></BrandInstagram>
+                            </a>
+                          )}
                       </div>
-                    </InfoWindow>
-                  )}
-                </Marker>
-              )
+                    </div>
+                  </InfoWindow>
+                )}
+              </Marker>
             )
           )
         }
