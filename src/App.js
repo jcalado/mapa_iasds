@@ -9,11 +9,12 @@ import {
 import { getChurchesList } from "./services/churches";
 import "./App.css";
 import {
-  Map,
-  BrandFacebook,
-  BrandYoutube,
-  BrandInstagram,
-} from "tabler-icons-react";
+  IconBrandYoutube,
+  IconBrandFacebook,
+  IconBrandInstagram,
+  IconMap,
+  IconPhoto,
+} from "@tabler/icons";
 
 const center = {
   lat: 39.6948,
@@ -239,6 +240,7 @@ function MyComponent() {
               instagram,
               firstName,
               lastName,
+              pictureUrl,
             }) => (
               <Marker
                 key={id}
@@ -256,7 +258,9 @@ function MyComponent() {
                       <p>{schedule}</p>
 
                       <h2>Pastor</h2>
-                      <p>{firstName} {lastName}</p>
+                      <p>
+                        {firstName} {lastName}
+                      </p>
 
                       <div className="links">
                         <a
@@ -275,33 +279,71 @@ function MyComponent() {
                           rel="noreferrer"
                           title="Mapa"
                         >
-                          <Map color="#ecb72b" size={30}></Map>
+                          <IconMap color="#ecb72b" size={30}></IconMap>
                         </a>
+                        {pictureUrl !== undefined &&
+                          pictureUrl !== null &&
+                          pictureUrl !== "" && (
+                            <a
+                              href={pictureUrl}
+                              title="Foto"
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <IconPhoto
+                                color="#003366"
+                                size={30}
+                              ></IconPhoto>
+                            </a>
+                          )}
                         {youtube !== undefined &&
                           youtube !== null &&
                           youtube !== "" && (
-                            <a href={youtube} title="Youtube" target="_blank" rel="noreferrer">
-                              <BrandYoutube color="#da2f2f" size={30}></BrandYoutube>
+                            <a
+                              href={youtube}
+                              title="Youtube"
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <IconBrandYoutube
+                                color="#da2f2f"
+                                size={30}
+                              ></IconBrandYoutube>
                             </a>
                           )}
 
                         {facebook !== undefined &&
                           facebook !== null &&
                           facebook !== "" && (
-                            <a href={facebook} title="Facebook" target="_blank" rel="noreferrer">
-                              <BrandFacebook color="#4267B2" size={30}></BrandFacebook>
+                            <a
+                              href={facebook}
+                              title="Facebook"
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <IconBrandFacebook
+                                color="#4267B2"
+                                size={30}
+                              ></IconBrandFacebook>
                             </a>
                           )}
 
                         {instagram !== undefined &&
                           instagram !== null &&
                           instagram !== "" && (
-                            <a href={instagram} title="Instagram" target="_blank" rel="noreferrer">
-                              <BrandInstagram color="#b92e9d" size={30}></BrandInstagram>
+                            <a
+                              href={instagram}
+                              title="Instagram"
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <IconBrandInstagram
+                                color="#b92e9d"
+                                size={30}
+                              ></IconBrandInstagram>
                             </a>
                           )}
                       </div>
-
                     </div>
                   </InfoWindow>
                 )}
