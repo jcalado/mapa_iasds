@@ -7,27 +7,30 @@ import {
   Autocomplete,
 } from "@react-google-maps/api";
 import { getChurchesList } from "./services/churches";
-import "./App.css";
+import { searchChurchesList } from "./services/searchChurches";
 import { ChurchDetails } from "./components/ChurchDetails";
-import logo from './assets/adventist-pt--white.svg'; 
-import logoPng from './assets/adventist-pt--white.png'; 
+import logo from "./assets/adventist-pt--white.svg";
+import logoPng from "./assets/adventist-pt--white.png";
+import { useSearchParams } from "react-router-dom";
+import "./App.css";
 
-const center = {
-  lat: 39.6948,
-  lng: -8.1303,
+var startConfig = {
+  center: { lat: 39.8, lng: -8.1303 },
+  zoom: 7,
 };
-const initialCenter = center;
 
 function MyComponent() {
   const [markerList, setMarkerList] = useState([]);
   var [searchList, setSearchList] = useState([]);
   const [activeMarker, setActiveMarker] = useState(null);
-  const [activePlace, setActivePlace] = useState(center);
+  const [activePlace, setActivePlace] = useState(startConfig.center);
   const [map, setMap] = React.useState(null);
   const [autocomplete, setAutocomplete] = React.useState(null);
   const [libraries] = useState(["places"]);
-  const [mapCenter, setMapCenter] = useState(center);
+  var [mapCenter, setMapCenter] = useState(startConfig.center);
+  var [mapZoom, setMapZoom] = useState(startConfig.zoom);
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_KEY;
+  let [searchParams, setSearchParams] = useSearchParams();
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -48,9 +51,7 @@ function MyComponent() {
       lat: autocomplete.getPlace().geometry.location.lat(),
       lng: autocomplete.getPlace().geometry.location.lng(),
     };
-    console.log(place);
 
-    console.log(distanceBetween(place, center));
     setActivePlace(place);
     markerList.forEach((marker) => {
       marker.distance = distanceBetween(place, marker);
@@ -59,8 +60,8 @@ function MyComponent() {
       parseInt(a.distance) > parseInt(b.distance) ? 1 : -1
     );
     setMapCenter(place);
-    map.setCenter(place);
-    map.setZoom(14);
+    //map.setCenter(place);
+    setMapZoom(14);
   };
 
   const handleAutocompleteLoaded = (obj) => {
@@ -89,13 +90,31 @@ function MyComponent() {
 
   useEffect(() => {
     let mounted = true;
-    getChurchesList().then((items) => {
-      if (mounted) {
-        items.sort((a, b) => (a.name > b.name ? 1 : -1));
-        setMarkerList(items);
-        setSearchList(items);
-      }
-    });
+    if (
+      searchParams.get("search") != "" &&
+      searchParams.get("search") != null
+    ) {
+      searchChurchesList(searchParams.get("search")).then((items) => {
+        if (mounted) {
+          setMarkerList(items);
+          setSearchList(items);
+          setMapCenter({ lat: items[0].lat, lng: items[0].lng });
+          setMapZoom(20);
+          setTimeout(() => {
+            setActiveMarker(items[0].id);
+          }, 2000);
+        }
+      });
+    } else {
+      getChurchesList().then((items) => {
+        if (mounted) {
+          items.sort((a, b) => (a.name > b.name ? 1 : -1));
+          setMarkerList(items);
+          setSearchList(items);
+        }
+      });
+    }
+
     return () => (mounted = false);
   }, []);
 
@@ -133,8 +152,7 @@ function MyComponent() {
     <div id="content">
       <div id="searchList">
         <div id="logo">
-        <img srcSet={`${logo}, ${logoPng}`} alt="Logo IASD"></img>
-
+          <img srcSet={`${logo}, ${logoPng}`} alt="Logo IASD"></img>
         </div>
 
         <input
@@ -158,6 +176,7 @@ function MyComponent() {
                 firstName,
                 lastName,
                 gender,
+                distance,
               }) => (
                 <li
                   key={id}
@@ -167,15 +186,11 @@ function MyComponent() {
                     map.setZoom(20);
                   }}
                   place_id={id}
-                  distance={distanceBetween(activePlace, { lat, lng })}
+                  distance={distance}
                 >
                   {name}
                   <small>
-                    {mapCenter === initialCenter
-                      ? ""
-                      : "Distância: " +
-                        distanceBetween(activePlace, { lat, lng }) +
-                        " Km"}
+                    {distance === undefined ? "" : distance.toFixed(0) + " Km"}
                   </small>
                   <small>
                     {gender === "M" ? "Pr." : "Pra."} {firstName} {lastName}
@@ -188,8 +203,8 @@ function MyComponent() {
       </div>
       <GoogleMap
         id="map"
-        center={center}
-        zoom={7}
+        center={mapCenter}
+        zoom={mapZoom}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
