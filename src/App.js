@@ -23,14 +23,13 @@ function MyComponent() {
   const [markerList, setMarkerList] = useState([]);
   var [searchList, setSearchList] = useState([]);
   const [activeMarker, setActiveMarker] = useState(null);
-  const [activePlace, setActivePlace] = useState(startConfig.center);
   const [map, setMap] = React.useState(null);
   const [autocomplete, setAutocomplete] = React.useState(null);
   const [libraries] = useState(["places"]);
   var [mapCenter, setMapCenter] = useState(startConfig.center);
   var [mapZoom, setMapZoom] = useState(startConfig.zoom);
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_KEY;
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -52,7 +51,6 @@ function MyComponent() {
       lng: autocomplete.getPlace().geometry.location.lng(),
     };
 
-    setActivePlace(place);
     markerList.forEach((marker) => {
       marker.distance = distanceBetween(place, marker);
     });
@@ -91,8 +89,8 @@ function MyComponent() {
   useEffect(() => {
     let mounted = true;
     if (
-      searchParams.get("search") != "" &&
-      searchParams.get("search") != null
+      searchParams.get("search") !== "" &&
+      searchParams.get("search") !== null
     ) {
       searchChurchesList(searchParams.get("search")).then((items) => {
         if (mounted) {
@@ -116,7 +114,7 @@ function MyComponent() {
     }
 
     return () => (mounted = false);
-  }, []);
+  }, [searchParams]);
 
   // useEffect( () => {
   //   if (!navigator.geolocation) {
