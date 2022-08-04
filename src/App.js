@@ -9,6 +9,8 @@ import {
 import { getChurchesList } from "./services/churches";
 import "./App.css";
 import { ChurchDetails } from "./components/ChurchDetails";
+import logo from './assets/adventist-pt--white.svg'; 
+import logoPng from './assets/adventist-pt--white.png'; 
 
 const center = {
   lat: 39.6948,
@@ -35,12 +37,10 @@ function MyComponent() {
 
   const onLoad = React.useCallback(function callback(map) {
     setMap(map);
-    console.log("mapa carregado");
   }, []);
 
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null);
-    console.log("unmount do mapa");
   }, []);
 
   const handlePlaceChanged = () => {
@@ -91,7 +91,7 @@ function MyComponent() {
     let mounted = true;
     getChurchesList().then((items) => {
       if (mounted) {
-        items.sort((a, b) => (a.city > b.city ? 1 : -1));
+        items.sort((a, b) => (a.name > b.name ? 1 : -1));
         setMarkerList(items);
         setSearchList(items);
       }
@@ -132,6 +132,11 @@ function MyComponent() {
   return isLoaded ? (
     <div id="content">
       <div id="searchList">
+        <div id="logo">
+        <img srcSet={`${logo}, ${logoPng}`} alt="Logo IASD"></img>
+
+        </div>
+
         <input
           type="search"
           autoComplete="off"
