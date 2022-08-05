@@ -13,6 +13,7 @@ import logo from "./assets/adventist-pt--white.svg";
 import logoPng from "./assets/adventist-pt--white.png";
 import { useSearchParams } from "react-router-dom";
 import "./App.css";
+import { IconCurrentLocation, IconMapSearch } from "@tabler/icons";
 
 var startConfig = {
   center: { lat: 39.8, lng: -8.1303 },
@@ -30,6 +31,7 @@ function MyComponent() {
   var [mapZoom, setMapZoom] = useState(startConfig.zoom);
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_KEY;
   let [searchParams] = useSearchParams();
+  let [currentLocation, setCurrentLocation] = useState(null);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -116,16 +118,34 @@ function MyComponent() {
     return () => (mounted = false);
   }, [searchParams]);
 
-  // useEffect( () => {
-  //   if (!navigator.geolocation) {
-  //     alert("Geolocation kaput!")
-  //   } else {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       setLocationPosition({lat: parseFloat(position.coords.latitude), lng: parseFloat(position.coords.longitude)});
-  //       console.log(`Setting position to ${position.coords.latitude},${position.coords.longitude} `)
-  //     });
-  //   }
-  // } )
+  function getCurrentLocation() {
+    if (!navigator.geolocation) {
+      console.log("Geolocation kaput!")
+    } else {
+      if (currentLocation != null) {
+        setMapCenter(currentLocation);
+        setMapZoom(23);
+        
+        setCurrentLocation(null);
+        return;
+      } 
+
+      navigator.geolocation.getCurrentPosition((position) => {
+        var lat = parseFloat(position.coords.latitude);
+        var lng = parseFloat(position.coords.longitude);
+        setCurrentLocation({lat: lat, lng: lng});
+        console.log(`Setting position to ${lat},${lng} `)
+        setMapCenter({lat: lat, lng: lng})
+        setMapZoom(20)
+        markerList.forEach((marker)=> {
+          marker.distance = parseFloat(distanceBetween({lat: lat, lng: lng}, {lat: marker.lat, lng: marker.lng}))
+        })
+        markerList.sort((a, b) =>
+        parseInt(a.distance) > parseInt(b.distance) ? 1 : -1
+      );
+      });
+    }
+  } 
 
   function distanceBetween(pointA, pointB) {
     var R = 6371; // Radius of the earth in km
@@ -152,14 +172,24 @@ function MyComponent() {
         <div id="logo">
           <img srcSet={`${logo}, ${logoPng}`} alt="Logo IASD"></img>
         </div>
+        <div id="searchButtons">
+          <span id="near">
+            <IconCurrentLocation></IconCurrentLocation>
+            <span onClick={getCurrentLocation}>Mais próxima de mim</span>
+          </span>
+          <div id="searchInput">
+            <IconMapSearch></IconMapSearch>
+            <input
+            type="search"
+            autoComplete="off"
+            id="search"
+            placeholder="filtrar lista ..."
+            onChange={handleSearchChange}
+          ></input>
+          </div>
 
-        <input
-          type="search"
-          autoComplete="off"
-          id="search"
-          placeholder="filtrar lista ..."
-          onChange={handleSearchChange}
-        ></input>
+        </div>
+
 
         <div id="list">
           <ul>

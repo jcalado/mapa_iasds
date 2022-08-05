@@ -48,21 +48,39 @@
   border-left: 2px solid #003366;
 }
 
-#search {
+#searchButtons {
+  background-color: #003366;
+}
+
+#searchButtons #near, #searchButtons #searchInput {
+  color: #003366;
+  display: flex;
+  padding: 5px;
+  border: 1px solid #cce5ff;
+  margin: 10px;
+  border-radius: 20px;
+  background-color: #cce5ff;
+  cursor: pointer;
+  transition: all 0.1s linear;
+  gap: 10px;
+}
+
+#searchButtons #near:hover {
+  box-shadow: 0px 0px 5px #cce5ff;
+}
+
+#searchButtons {
   position: sticky;
   top: 0px;
+}
+
+#search {
   appearance: none;
-  width: 100%;
   border: 0;
-  background-color: #003366;
-  color: white;
-  font-size: 1.3em;
+  background-color: transparent;
+  color: rgb(0, 51, 102);
   outline: none;
-  padding: 10px;
-  padding-left: 50px;
-  background-repeat: no-repeat;
-  background-position: 10px 50%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-map-search' width='24' height='24' viewBox='0 0 24 24' stroke-width='2' stroke='white' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'%3E%3C/path%3E%3Cpath d='M11 18l-2 -1l-6 3v-13l6 -3l6 3l6 -3v10'%3E%3C/path%3E%3Cpath d='M9 4v13'%3E%3C/path%3E%3Cpath d='M15 7v5'%3E%3C/path%3E%3Ccircle cx='16.5' cy='17.5' r='2.5'%3E%3C/circle%3E%3Cpath d='M18.5 19.5l2.5 2.5'%3E%3C/path%3E%3C/svg%3E");
+  border-radius: 20px;
 }
 
 #geocode {
@@ -83,7 +101,8 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-filter' width='24' height='24' viewBox='0 0 24 24' stroke-width='1.5' stroke='white' fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M5.5 5h13a1 1 0 0 1 .5 1.5l-5 5.5l0 7l-4 -3l0 -4l-5 -5.5a1 1 0 0 1 .5 -1.5' /%3E%3C/svg%3E");}
 
 #search::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: #003366;
+  opacity: 0.5;
 }
 
 .churchInfo {
