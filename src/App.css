@@ -65,6 +65,10 @@
   gap: 10px;
 }
 
+#searchButtons #near {
+  user-select: none;
+}
+
 #searchButtons #near:hover {
   box-shadow: 0px 0px 5px #cce5ff;
 }
