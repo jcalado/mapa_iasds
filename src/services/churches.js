@@ -1,4 +1,4 @@
 export function getChurchesList() {
-    return fetch('https://infoupasd.app.adventistas.org.pt/v1/react/churches.php')
+    return fetch('https://api.adventistas.org.pt/igrejas/churches.php')
       .then(data => data.json())
   }
