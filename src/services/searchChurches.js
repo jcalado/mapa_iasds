@@ -1,5 +1,5 @@
 export function searchChurchesList(address) {
   return fetch(
-    `https://api.adventistas.org.pt/igrejas/geocode.php?address=${address}`
+    `https://api.adventistas.pt/igrejas?morada=${address}`
   ).then((data) => data.json());
 }
