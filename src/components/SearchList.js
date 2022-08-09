@@ -1,0 +1,74 @@
+import React from "react";
+import logo from "../assets/adventist-pt--white.svg";
+import logoPng from "../assets/adventist-pt--white.png";
+import { IconCurrentLocation, IconMapSearch } from "@tabler/icons";
+
+export function SearchList(props) {
+  return (
+    <div id="searchList">
+      <div id="logo">
+        <img srcSet={`${logo}, ${logoPng}`} alt="Logo IASD"></img>
+      </div>
+      <div id="searchButtons">
+        <span id="near">
+          <IconCurrentLocation></IconCurrentLocation>
+          <span onClick={props.getCurrentLocation}>Mais próxima de mim</span>
+        </span>
+        <div id="searchInput">
+          <IconMapSearch></IconMapSearch>
+          <input
+            type="search"
+            autoComplete="off"
+            id="search"
+            placeholder="filtrar lista ..."
+            onChange={props.handleSearchChange}
+          ></input>
+        </div>
+      </div>
+
+      <div id="list">
+        <ul>
+          {props.searchList.map(
+            ({
+              id,
+              name,
+              lat,
+              lng,
+              address,
+              city,
+              firstName,
+              lastName,
+              gender,
+              distance,
+            }) => (
+              <li
+                key={id}
+                position={{
+                  lat,
+                  lng,
+                }}
+                onClick={() => {
+                  props.map.setCenter({
+                    lat,
+                    lng,
+                  });
+                  props.map.setZoom(20);
+                }}
+                place_id={id}
+                distance={distance}
+              >
+                {name}
+                <small>
+                  {distance === undefined ? "" : distance.toFixed(0) + " Km"}
+                </small>
+                <small>
+                  {gender === "M" ? "Pr." : "Pra."} {firstName} {lastName}
+                </small>
+              </li>
+            )
+          )}
+        </ul>
+      </div>
+    </div>
+  );
+}

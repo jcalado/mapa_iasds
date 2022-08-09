@@ -9,29 +9,28 @@ import {
 import { getChurchesList } from "./services/churches";
 import { searchChurchesList } from "./services/searchChurches";
 import { ChurchDetails } from "./components/ChurchDetails";
-import logo from "./assets/adventist-pt--white.svg";
-import logoPng from "./assets/adventist-pt--white.png";
+import { SearchList } from "./components/SearchList";
 import { useSearchParams } from "react-router-dom";
 import "./App.css";
-import { IconCurrentLocation, IconMapSearch } from "@tabler/icons";
+import { distanceBetween } from  "./utils/GeoMath";
 
 var startConfig = {
   center: { lat: 39.8, lng: -8.1303 },
   zoom: 7,
 };
 
-function MyComponent() {
+function App() {
   const [markerList, setMarkerList] = useState([]);
-  var [searchList, setSearchList] = useState([]);
+  const [searchList, setSearchList] = useState([]);
   const [activeMarker, setActiveMarker] = useState(null);
   const [map, setMap] = React.useState(null);
   const [autocomplete, setAutocomplete] = React.useState(null);
   const [libraries] = useState(["places"]);
-  var [mapCenter, setMapCenter] = useState(startConfig.center);
-  var [mapZoom, setMapZoom] = useState(startConfig.zoom);
-  const apiKey = process.env.REACT_APP_GOOGLE_MAPS_KEY;
   let [searchParams] = useSearchParams();
   let [currentLocation, setCurrentLocation] = useState(null);
+  const apiKey = process.env.REACT_APP_GOOGLE_MAPS_KEY;
+  const [mapCenter, setMapCenter] = useState(startConfig.center);
+  const [mapZoom, setMapZoom] = useState(startConfig.zoom);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -120,115 +119,50 @@ function MyComponent() {
 
   function getCurrentLocation() {
     if (!navigator.geolocation) {
-      console.log("Geolocation kaput!")
+      alert("O Seu browser não suporta geolocalização.")
     } else {
       if (currentLocation != null) {
         setMapCenter(currentLocation);
         setMapZoom(23);
-        
+
         setCurrentLocation(null);
         return;
-      } 
+      }
 
       navigator.geolocation.getCurrentPosition((position) => {
         var lat = parseFloat(position.coords.latitude);
         var lng = parseFloat(position.coords.longitude);
-        setCurrentLocation({lat: lat, lng: lng});
-        console.log(`Setting position to ${lat},${lng} `)
-        setMapCenter({lat: lat, lng: lng})
-        setMapZoom(20)
-        markerList.forEach((marker)=> {
-          marker.distance = parseFloat(distanceBetween({lat: lat, lng: lng}, {lat: marker.lat, lng: marker.lng}))
-        })
+        setCurrentLocation({ lat: lat, lng: lng });
+        // console.log(`Setting position to ${lat},${lng} `);
+        // setMapCenter({ lat: lat, lng: lng });
+        setMapZoom(17);
+        markerList.forEach((marker) => {
+          marker.distance = parseFloat(
+            distanceBetween(
+              { lat: lat, lng: lng },
+              { lat: marker.lat, lng: marker.lng }
+            )
+          );
+        });
         markerList.sort((a, b) =>
-        parseInt(a.distance) > parseInt(b.distance) ? 1 : -1
-      );
+          parseInt(a.distance) > parseInt(b.distance) ? 1 : -1
+        );
+        setMapCenter({lat: markerList[0].lat, lng: markerList[0].lng})
+        setActiveMarker(markerList[0].id)
       });
     }
-  } 
-
-  function distanceBetween(pointA, pointB) {
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(pointB.lat - pointA.lat); // deg2rad below
-    var dLon = deg2rad(pointB.lng - pointA.lng);
-    var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(pointA.lat)) *
-        Math.cos(deg2rad(pointB.lat)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c; // Distance in km
-    return d.toFixed(0);
   }
 
-  function deg2rad(deg) {
-    return deg * (Math.PI / 180);
-  }
+  
 
   return isLoaded ? (
     <div id="content">
-      <div id="searchList">
-        <div id="logo">
-          <img srcSet={`${logo}, ${logoPng}`} alt="Logo IASD"></img>
-        </div>
-        <div id="searchButtons">
-          <span id="near">
-            <IconCurrentLocation></IconCurrentLocation>
-            <span onClick={getCurrentLocation}>Mais próxima de mim</span>
-          </span>
-          <div id="searchInput">
-            <IconMapSearch></IconMapSearch>
-            <input
-            type="search"
-            autoComplete="off"
-            id="search"
-            placeholder="filtrar lista ..."
-            onChange={handleSearchChange}
-          ></input>
-          </div>
-
-        </div>
-
-
-        <div id="list">
-          <ul>
-            {searchList.map(
-              ({
-                id,
-                name,
-                lat,
-                lng,
-                address,
-                city,
-                firstName,
-                lastName,
-                gender,
-                distance,
-              }) => (
-                <li
-                  key={id}
-                  position={{ lat, lng }}
-                  onClick={() => {
-                    map.setCenter({ lat, lng });
-                    map.setZoom(20);
-                  }}
-                  place_id={id}
-                  distance={distance}
-                >
-                  {name}
-                  <small>
-                    {distance === undefined ? "" : distance.toFixed(0) + " Km"}
-                  </small>
-                  <small>
-                    {gender === "M" ? "Pr." : "Pra."} {firstName} {lastName}
-                  </small>
-                </li>
-              )
-            )}
-          </ul>
-        </div>
-      </div>
+      <SearchList
+        getCurrentLocation={getCurrentLocation}
+        searchList={searchList}
+        map={map}
+        handleSearchChange={handleSearchChange}
+      ></SearchList>
       <GoogleMap
         id="map"
         center={mapCenter}
@@ -323,4 +257,4 @@ function MyComponent() {
   );
 }
 
-export default React.memo(MyComponent);
+export default React.memo(App);
