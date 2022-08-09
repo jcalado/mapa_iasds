@@ -1,7 +1,7 @@
 {
   "name": "church_map",
   "homepage": "https://jcalado.github.io/mapa_iasds",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@react-google-maps/api": "^2.12.1",
