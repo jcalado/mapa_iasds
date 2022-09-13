@@ -59,7 +59,7 @@ export function SearchList(props) {
               >
                 {name}
                 <small>
-                  {distance === undefined ? "" : distance.toFixed(0) + " Km"}
+                  {distance === undefined ? "" : distance + " Km"}
                 </small>
                 <small>
                   {gender === "M" ? "Pr." : "Pra."} {firstName} {lastName}

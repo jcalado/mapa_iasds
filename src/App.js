@@ -137,11 +137,10 @@ function App() {
         // setMapCenter({ lat: lat, lng: lng });
         setMapZoom(17);
         markerList.forEach((marker) => {
-          marker.distance = parseFloat(
+          marker.distance = 
             distanceBetween(
               { lat: lat, lng: lng },
               { lat: marker.lat, lng: marker.lng }
-            )
           );
         });
         markerList.sort((a, b) =>
