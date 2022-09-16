@@ -212,6 +212,7 @@ function App() {
               firstName,
               lastName,
               pictureUrl,
+              pastorEmail,
             }) => (
               <Marker
                 key={id}
@@ -230,7 +231,7 @@ function App() {
 
                       <h2>Pastor</h2>
                       <p>
-                        {firstName} {lastName}
+                        <a href={`mailto:${pastorEmail}`}>{firstName} {lastName}</a>
                       </p>
 
                       <ChurchDetails
