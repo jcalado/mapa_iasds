@@ -121,7 +121,16 @@
 }
 
 .churchInfo .links {
-  margin-top: 1em;
+  margin-top: 2em;
+  display: flex;
+  justify-content: flex-start;
+  gap: 1em;
+}
+
+.churchInfo .links a {
+  height: fit-content;
+  display: inline-block;
+  width: fit-content;
 }
 
 .churchInfo h1 {
