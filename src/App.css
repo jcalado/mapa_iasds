@@ -145,6 +145,8 @@
   font-size: 1.2em;
   font-weight: normal;
   color: #003366;
+  border: none;
+  padding-left: 0;
 }
 
 #logo {

@@ -4,13 +4,17 @@ import {
   IconBrandFacebook,
   IconBrandInstagram,
   IconMap,
-  IconPhoto
+  IconPhoto,
+  IconMail
 } from "@tabler/icons";
 import { Tooltip } from '@mantine/core';
 
 export function ChurchDetails(props) {
   return (
     <div className="links">
+      <Tooltip label="Email do pastor" position="top">
+      <a href={`mailto:${props.pastorEmail}`}><IconMail color="#000000" size={30}></IconMail></a>
+      </Tooltip>
       <Tooltip label="Mostrar no mapa" position="top">
         <a
           href={"https://maps.google.com/?q=" +

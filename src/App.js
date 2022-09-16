@@ -241,6 +241,7 @@ function App() {
                         facebook={facebook}
                         instagram={instagram}
                         pictureUrl={pictureUrl}
+                        pastorEmail={pastorEmail}
                       ></ChurchDetails>
                     </div>
                   </InfoWindow>
