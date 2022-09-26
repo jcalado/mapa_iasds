@@ -161,6 +161,7 @@ function App() {
         searchList={searchList}
         map={map}
         handleSearchChange={handleSearchChange}
+        setActiveMarker={setActiveMarker}
       ></SearchList>
       <GoogleMap
         id="map"

@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Noto+Serif:wght@400;700&display=swap');
+
+
+:root {
+  --accent-color: red;
+  --text-color: white;
+  --scrollbar-thumb: #c1c1c1;
+  --scrollbar-track: #fafafa;
+}
+
 #list ul {
   list-style-type: none;
   margin: 0;
@@ -6,15 +16,22 @@
 }
 
 #list ul li {
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
   user-select: none;
   cursor: pointer;
   margin: 0;
   text-align: left;
+  font-family: 'Noto Serif';
+  font-size: 19px;
+  transition: all 0.1s linear;
 }
 
 #list ul li:nth-child(odd) {
-  background-color: rgba(0, 51, 102, 0.08);
+  background-color: rgb(228, 228, 228);
+}
+
+#list ul li:hover {
+  padding-left: 1.5rem;
 }
 
 #list ul li small {
@@ -22,12 +39,10 @@
   font-size: 0.7em;
   color: gray;
   font-style: italic;
+  font-family: "Noto Sans";
+  font-size: 15px;
 }
 
-#list ul li:hover {
-  background-color: #003366;
-  color: white;
-}
 
 #content {
   display: flex;
@@ -42,10 +57,31 @@
 #searchList {
   display: flex;
   flex-direction: column;
-  width: 25%;
+  width: 30%;
+  min-width: 250px;
   overflow: scroll;
   max-height: 100vh;
-  border-left: 2px solid #003366;
+}
+
+/* width */
+#searchList::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+#searchList::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+/* Handle */
+#searchList::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+#searchList::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 #searchButtons {
@@ -53,20 +89,23 @@
 }
 
 #searchButtons #near, #searchButtons #searchInput {
-  color: #003366;
-  display: flex;
-  padding: 5px;
-  border: 1px solid #cce5ff;
-  margin: 10px;
-  border-radius: 20px;
   background-color: #cce5ff;
+  border: 1px solid #cce5ff;
+  border-radius: 20px;
+  color: #036;
   cursor: pointer;
-  transition: all 0.1s linear;
+  display: flex;
   gap: 10px;
+  margin: 10px;
+  padding: 4px 10px;
+  transition: all .1s linear;
+  font-size: 1rem;
+  align-items: center;
 }
 
 #searchButtons #near {
   user-select: none;
+  margin-top: 0;
 }
 
 #searchButtons #near:hover {
