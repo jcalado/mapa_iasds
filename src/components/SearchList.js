@@ -1,6 +1,4 @@
 import React from "react";
-import logo from "../assets/adventist-pt-text--white.svg";
-import logoPng from "../assets/adventist-pt-text--white.png";
 import { IconCurrentLocation, IconMapSearch } from "@tabler/icons";
 
 export function SearchList(props) {
