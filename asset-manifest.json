@@ -1,17 +1,15 @@
 {
   "files": {
-    "main.css": "/mapa_iasds/static/css/main.844c911a.css",
-    "main.js": "/mapa_iasds/static/js/main.a2ddb655.js",
+    "main.css": "/mapa_iasds/static/css/main.64b577d5.css",
+    "main.js": "/mapa_iasds/static/js/main.6540224d.js",
     "static/js/787.06618600.chunk.js": "/mapa_iasds/static/js/787.06618600.chunk.js",
-    "static/media/adventist-pt-text--white.png": "/mapa_iasds/static/media/adventist-pt-text--white.a928ed43b37e2d3654ce.png",
-    "static/media/adventist-pt-text--white.svg": "/mapa_iasds/static/media/adventist-pt-text--white.aa6557203e3dfcf4684c2195606fb72b.svg",
     "index.html": "/mapa_iasds/index.html",
-    "main.844c911a.css.map": "/mapa_iasds/static/css/main.844c911a.css.map",
-    "main.a2ddb655.js.map": "/mapa_iasds/static/js/main.a2ddb655.js.map",
+    "main.64b577d5.css.map": "/mapa_iasds/static/css/main.64b577d5.css.map",
+    "main.6540224d.js.map": "/mapa_iasds/static/js/main.6540224d.js.map",
     "787.06618600.chunk.js.map": "/mapa_iasds/static/js/787.06618600.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.844c911a.css",
-    "static/js/main.a2ddb655.js"
+    "static/css/main.64b577d5.css",
+    "static/js/main.6540224d.js"
   ]
 }
