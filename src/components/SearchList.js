@@ -6,9 +6,6 @@ import { IconCurrentLocation, IconMapSearch } from "@tabler/icons";
 export function SearchList(props) {
   return (
     <div id="searchList">
-      <div id="logo">
-        <img srcSet={`${logo}, ${logoPng}`} alt="Logo IASD"></img>
-      </div>
       <div id="searchButtons">
         <span id="near">
           <IconCurrentLocation></IconCurrentLocation>

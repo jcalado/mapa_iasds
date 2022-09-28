@@ -105,7 +105,6 @@
 
 #searchButtons #near {
   user-select: none;
-  margin-top: 0;
 }
 
 #searchButtons #near:hover {
