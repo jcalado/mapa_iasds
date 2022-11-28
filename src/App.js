@@ -222,7 +222,7 @@ function App() {
                 onClick={() => handleActiveMarker(id)}
               >
                 {activeMarker === id && (
-                  <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                  <InfoWindow maxWidth={400} maxHeight={500} onCloseClick={() => setActiveMarker(null)}>
                     <div className="churchInfo">
                       <h1>{name}</h1>
                       <h2>Morada</h2>
