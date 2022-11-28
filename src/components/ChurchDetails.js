@@ -5,15 +5,21 @@ import {
   IconBrandInstagram,
   IconMap,
   IconPhoto,
-  IconMail
+  IconMail,
+  IconWorld
 } from "@tabler/icons";
 import { Tooltip } from '@mantine/core';
 
 export function ChurchDetails(props) {
   return (
     <div className="links">
+      {props.website && (
+        <Tooltip label="Site" position="top">
+          <a href={props.website} target="_blank" rel="noreferrer"><IconWorld color="#000000" size={30}></IconWorld></a>
+        </Tooltip>)
+      }
       <Tooltip label="Email do pastor" position="top">
-      <a href={`mailto:${props.pastorEmail}`}><IconMail color="#000000" size={30}></IconMail></a>
+        <a href={`mailto:${props.pastorEmail}`}><IconMail color="#000000" size={30}></IconMail></a>
       </Tooltip>
       <Tooltip label="Mostrar no mapa" position="top">
         <a
@@ -49,13 +55,13 @@ export function ChurchDetails(props) {
         props.youtube !== null &&
         props.youtube !== "" && (
           <Tooltip label="Abrir canal do Youtube" position="top">
-          <a
-            href={props.youtube}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <IconBrandYoutube color="#da2f2f" size={30}></IconBrandYoutube>
-          </a>
+            <a
+              href={props.youtube}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <IconBrandYoutube color="#da2f2f" size={30}></IconBrandYoutube>
+            </a>
           </Tooltip>
         )}
 
@@ -63,13 +69,13 @@ export function ChurchDetails(props) {
         props.facebook !== null &&
         props.facebook !== "" && (
           <Tooltip label="Abrir página" position="top">
-          <a
-            href={props.facebook}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <IconBrandFacebook color="#4267B2" size={30}></IconBrandFacebook>
-          </a>
+            <a
+              href={props.facebook}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <IconBrandFacebook color="#4267B2" size={30}></IconBrandFacebook>
+            </a>
           </Tooltip>
         )}
 
@@ -77,13 +83,13 @@ export function ChurchDetails(props) {
         props.instagram !== null &&
         props.instagram !== "" && (
           <Tooltip label="Abrir perfil" position="top">
-          <a
-            href={props.instagram}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <IconBrandInstagram color="#b92e9d" size={30}></IconBrandInstagram>
-          </a>
+            <a
+              href={props.instagram}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <IconBrandInstagram color="#b92e9d" size={30}></IconBrandInstagram>
+            </a>
           </Tooltip>
         )}
     </div>

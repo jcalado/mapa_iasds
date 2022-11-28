@@ -207,6 +207,7 @@ function App() {
               lng,
               address,
               schedule,
+              website,
               youtube,
               facebook,
               instagram,
@@ -238,6 +239,7 @@ function App() {
                       <ChurchDetails
                         lat={lat}
                         lng={lng}
+                        website={website}
                         youtube={youtube}
                         facebook={facebook}
                         instagram={instagram}
