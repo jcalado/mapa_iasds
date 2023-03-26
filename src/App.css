@@ -8,6 +8,31 @@
   --scrollbar-track: #fafafa;
 }
 
+#list { 
+  overflow: scroll;
+}
+
+/* width */
+#list::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+#list::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+/* Handle */
+#list::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+#list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 #list ul {
   list-style-type: none;
   margin: 0;
@@ -22,8 +47,22 @@
   margin: 0;
   text-align: left;
   font-family: 'Noto Serif';
-  font-size: 19px;
+  font-size: 17px;
   transition: all 0.1s linear;
+}
+
+#list ul li {
+  display: grid;
+  grid-template-columns: 75% 25%;
+}
+
+/* Doesn't have 3 elements, use only 1 column */
+#list ul li:not(:has(:nth-child(3))) {
+  grid-template-columns: 1fr;
+}
+
+span + small.pastor {
+  grid-row: 2;
 }
 
 #list ul li:nth-child(odd) {
@@ -31,7 +70,8 @@
 }
 
 #list ul li:hover {
-  padding-left: 1.5rem;
+  color: white;
+  background: hsl(210deg 100% 12%);
 }
 
 #list ul li small {
@@ -40,7 +80,7 @@
   color: gray;
   font-style: italic;
   font-family: "Noto Sans";
-  font-size: 15px;
+  font-size: 13px;
 }
 
 
@@ -59,29 +99,7 @@
   flex-direction: column;
   width: 30%;
   min-width: 250px;
-  overflow: scroll;
   max-height: 100vh;
-}
-
-/* width */
-#searchList::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-#searchList::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-}
-
-/* Handle */
-#searchList::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 4px;
-}
-
-/* Handle on hover */
-#searchList::-webkit-scrollbar-thumb:hover {
-  background: #555;
 }
 
 #searchButtons {
@@ -192,6 +210,20 @@
   padding: 10px;
 }
 
+small.distance {
+  width: fit-content;
+  background: #00336621;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: #646464 !important;
+  font-size: 0.8rem !important;
+  place-self: end;
+}
+
+li:hover small.distance {
+  background-color: white;
+}
+
 @media only screen and (max-width: 600px) {
   #content {
     flex-direction: column-reverse;
@@ -208,4 +240,5 @@
   #search {
     width: 100%;
   }
+
 }

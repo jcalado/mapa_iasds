@@ -7,7 +7,7 @@ export function SearchList(props) {
       <div id="searchButtons">
         <span id="near">
           <IconCurrentLocation></IconCurrentLocation>
-          <span onClick={props.getCurrentLocation}>Mais próxima de mim</span>
+          <span onClick={props.getCurrentLocation}>Mais próxima</span>
         </span>
         <div id="searchInput">
           <IconMapSearch></IconMapSearch>
@@ -39,21 +39,21 @@ export function SearchList(props) {
               <li
                 key={id}
                 onClick={() => {
+                  props.map.setZoom(20);
                   props.map.setCenter({
                     lat,
                     lng,
                   });
-                  props.map.setZoom(20);
                   props.setActiveMarker(id);
                 }}
                 place_id={id}
                 distance={distance}
               >
-                {name}
-                <small>
+                <span>{name}</span>
+                {distance && (<small className="distance">
                   {distance === undefined ? "" : distance + " Km"}
-                </small>
-                <small>
+                </small>)}
+                <small className="pastor">
                   {gender === "M" ? "Pr." : "Pra."} {firstName} {lastName}
                 </small>
               </li>

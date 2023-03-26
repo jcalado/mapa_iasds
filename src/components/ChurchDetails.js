@@ -48,7 +48,7 @@ export function ChurchDetails(props) {
               rel="noreferrer"
             >
               <IconPhoto color="#003366" size={30}></IconPhoto>
-            </a>
+            </a>       
           </Tooltip>
         )}
       {props.youtube !== undefined &&
